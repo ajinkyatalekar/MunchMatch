@@ -74,7 +74,7 @@ class _GiveMealWidgetState extends State<GiveMealWidget> {
                           child: Image.asset(
                             'assets/images/c582cf6161dafcf40e3a9b4ebdd28d76.webp',
                             width: double.infinity,
-                            height: MediaQuery.sizeOf(context).height * 0.5,
+                            height: MediaQuery.sizeOf(context).height * 0.45,
                             fit: BoxFit.cover,
                             alignment: const Alignment(0.00, 0.00),
                           ),
@@ -461,6 +461,85 @@ class _GiveMealWidgetState extends State<GiveMealWidget> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  Align(
+                    alignment: const AlignmentDirectional(0.00, 0.00),
+                    child: Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 15.0, 0.0, 0.0),
+                      child: StreamBuilder<List<MatchesRecord>>(
+                        stream: queryMatchesRecord(
+                          queryBuilder: (matchesRecord) => matchesRecord.where(
+                            'giver',
+                            isEqualTo: widget.ubit,
+                          ),
+                          singleRecord: true,
+                        ),
+                        builder: (context, snapshot) {
+                          // Customize what your widget looks like when it's loading.
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: SizedBox(
+                                width: 50.0,
+                                height: 50.0,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    FlutterFlowTheme.of(context).primary,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          List<MatchesRecord> buttonMatchesRecordList =
+                              snapshot.data!;
+                          // Return an empty Container when the item does not exist.
+                          if (snapshot.data!.isEmpty) {
+                            return Container();
+                          }
+                          final buttonMatchesRecord =
+                              buttonMatchesRecordList.isNotEmpty
+                                  ? buttonMatchesRecordList.first
+                                  : null;
+                          return FFButtonWidget(
+                            onPressed: () async {
+                              context.pushNamed(
+                                'Give_Details',
+                                queryParameters: {
+                                  'ubit': serializeParam(
+                                    widget.ubit,
+                                    ParamType.String,
+                                  ),
+                                }.withoutNulls,
+                              );
+                            },
+                            text: 'See matches!',
+                            options: FFButtonOptions(
+                              width: 200.0,
+                              height: 42.0,
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 0.0),
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 0.0),
+                              color: FlutterFlowTheme.of(context).success,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    fontFamily: 'Plus Jakarta Sans',
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                              elevation: 3.0,
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(40.0),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],

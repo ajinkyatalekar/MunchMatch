@@ -1,0 +1,22 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "swipe_givers",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "location",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "time_hr",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "time_min",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ]
+}
